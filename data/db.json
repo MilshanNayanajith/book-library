@@ -1,0 +1,13 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "coverImage": "https://marketplace.canva.com/EAFPHUaBrFc/1/0/1003w/canva-black-and-white-modern-alone-story-book-cover-QHBKwQnsgzs.jpg",
+      "title": "The Midnight Library",
+      "author": "Matt Haig",
+      "rating": 4.5,
+      "category": "Fiction"
+    }
+
+  ]
+}

@@ -1,10 +1,11 @@
+import BookList from "../components/library/books/BookList";
 
-type Props = {}
-
-const Library = (props: Props) => {
+const Library = () => {
   return (
-    <div>Library</div>
+    <>
+     <BookList />
+    </>
   )
 }
 
-export default Library
+export default Library;
