@@ -6,43 +6,44 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BookPreview from "../book-preview/BookPreview";
 import { useQuery } from "@tanstack/react-query";
 import { fetchBooks } from "../../../util/http";
+import ErrorMsg from "../../error-msg/ErrorMsg";
 const BookList = () => {
 
-  const { data, isPending, isError, error }: any = useQuery({
+  const { data, isError, error, isLoading} = useQuery({
     queryKey: ["books"],
     queryFn: fetchBooks,
-    staleTime: 5000
   });
 
   let contetnt;
 
   const navigate = useNavigate();
   const location = useLocation();
-  const bookId = new URLSearchParams(location.search).get("id") || "0";
+  const bookId = new URLSearchParams(location.search).get("id");
 
-  const selectedBook = data?.find((b: BookType) => b?.id == parseInt(bookId));
+  const selectedBook = bookId && data && data?.find((b: BookType) => b?.id == parseInt(bookId));
 
   const toggleView = useSelector((state: RootState) => state.toggleView?.value);
 
-  let view = "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 ";
+  let view = "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mb-10";
 
   if (toggleView) {
     view = "flex flex-col gap-1";
   }
 
-  if (isPending) {
+  if (isLoading) {
     contetnt = <h3>Loading ...</h3>;
   }
 
   if (isError) {
-    contetnt = <h3>{error?.info.message}</h3>;
+    const err = error as any;
+    contetnt = <ErrorMsg msg={err.info || err.message || "Something went wrong."} />
   }
 
   if (data) {
     contetnt = (
       <div className={`${view}`}>
         {data &&
-          data.map((book: BookType, bookIndex: number) => (
+          data?.map((book: BookType, bookIndex: number) => (
             <Book
               key={bookIndex}
               book={book}
